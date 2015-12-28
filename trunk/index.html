@@ -1,0 +1,541 @@
+<html>
+
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>index</title>
+
+<style>
+*{
+	margin:0px;
+	padding:0px;
+}
+.sq {
+	height:175px;
+	width:175px;
+	margin:5px;
+	text-align:center;
+	cursor:pointer;
+}
+.lar{
+	height:360px;
+	width:360px;
+	margin:5px;
+	text-align:center;
+	cursor:pointer;
+}
+.lon{
+	height:175px;
+	width:360px;
+	margin:5px;
+	text-align:center;
+	cursor:pointer;
+}
+.sulon{
+	height:175px;
+	width:540px;
+	margin:5px;
+	text-align:center;
+	cursor:pointer;
+}
+.midlar{
+	height:360px;
+	width:540px;
+	margin:5px;
+	text-align:center;
+	cursor:pointer;
+}
+.sular{
+	height:540px;
+	width:540px;
+	margin:5px;
+	text-align:center;
+	cursor:pointer;
+}
+
+.but{
+	position:fixed;
+	bottom:0;
+	left:0;
+	cursor:pointer;
+}
+span{
+	font-size:30px;
+	font-family:Arial,微软雅黑;
+	color:#FFFFFF;
+}
+.color1 {
+	background:#FFCC33;
+}
+.color2 {
+	background:#336699;
+}
+
+</style>
+
+<script type="text/javascript" src="js/jquery_1.4.js"></script>
+<script type="text/javascript" src="data/data.js"></script>
+<script>
+$(function(){
+	window.localStorage['db'] = "";
+});
+var curScene = "scene1";
+$(function(){
+	totalScene = 3;
+	for(i=2 ; i<=totalScene ; i++){
+		$('#scene'+i).hide();
+	}
+	
+});
+
+function toscene(sceneNum){
+	$('#'+curScene).hide();
+	$('#'+sceneNum).fadeIn("slow");
+	switchSceneIn(sceneNum);
+	switchSceneOut(curScene);
+	curScene = sceneNum;
+}
+function switchSceneIn(sceneNum){
+	switch(sceneNum){
+		case "scene1":
+			break;
+		case "scene2":
+			scene2_in();
+			break;
+		case "scene3":
+			scene3_in();
+			break;
+	}
+	
+}
+function switchSceneOut(sceneNum){
+	switch(sceneNum){
+		case "scene1":
+			break;
+		case "scene2":
+			scene2_out();
+			break;
+		case "scene3":
+			scene3_out();
+			break;
+	}
+}
+
+function RandomNum(under, over){ 
+	return parseInt(Math.random()*(over-under+1) + under); 
+} 
+</script>
+
+</head>
+
+<body>
+
+<script>
+function but_in(){
+	but = document.getElementById("but_img");
+	but.src = "imgs/but_in.png";
+}
+function but_out(){
+but = document.getElementById("but_img");
+	but.src = "imgs/but.png";
+}
+
+//抢凳子游戏
+var play_game2_sound = true;
+var game2_audio = new Audio("sound/game2.mp3");
+function play_game2(){
+	if(play_game2_sound){
+		game2_audio.play();
+	}else{
+		game2_audio.load();
+		
+	}
+	play_game2_sound = !play_game2_sound;
+}
+</script>
+<div class="but"><img id="but_img" onmouseover="but_in()" onmouseout="but_out()" onclick="toscene('scene1')" src="imgs/but.png" /></div>
+
+<table style="background:#339933;" width="100%" height="100%">
+<tr>
+<td align="center">
+
+<!-- Scene 1 -->
+
+	<table id="scene1" style="width:720px;height:540px;" cellpadding="0" cellspacing="0" border="0">
+		<tbody>
+			<tr>
+				<td rowspan="2" colspan="2"><!-- 1-2,1-2 -->
+					<div class="lar color1">
+						<img src="imgs/welcome.png" width="360" height="360"/>
+					</div>
+				</td>
+				
+				<td ><!-- 1,3 -->
+					<div onclick="toscene('scene2')" class="sq color1">
+						<br/>
+						<div><img src="imgs/reward.png"></div>
+						<span>欢乐抽奖</span>
+					</div>
+				</td>
+				<td ><!-- 1,4 -->
+					<div class="sq color1">
+						<br/>
+						<div><img src="imgs/zz_logo1.png"></div>
+						<span>音悦城</span>
+					
+					</div>
+				</td>
+			</tr>
+			<tr>
+				
+				<td ><!-- 2,3 -->
+					<div onclick="toscene('scene3')" class="sq color2">
+						<br/>
+						<div><img src="imgs/game1.png"></div>
+						<span>心有灵犀</span>
+					</div>
+				</td>
+				<td ><!-- 2,4 -->
+					<div onclick="play_game2()" class="sq color2">
+						<br/>
+						<div><img src="imgs/game2.png"></div>
+						<span>抢凳子</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td ><!-- 3,1 -->
+					<div class="sq color2">
+						<br/>
+						<div><img src="imgs/aboutus.png"></div>
+						<span>About us</span>
+					</div>
+				</td>
+				<td ><!-- 3,2 -->
+					<div class="sq color2">
+						<br/>
+						<div><img src="imgs/playlist.png"></div>
+						<span>演出节目</span>
+					</div>
+				</td>
+				<td colspan="2"><!-- 3,3-4 -->
+					<div class="lon color1">
+						<br/><br/>
+						<span id="todaydate" style="top:10px"></span>
+						<span id="todaytime" style="font-size:70px"></span>
+					</div>
+				</td>
+				
+			</tr>
+		</tbody>
+	</table>
+<script>
+//得到当天时间
+var flag = false;
+function getTodayTime(){
+	flag = !flag;
+	var days = ["1st" , "2nd" , "3rd" , "4th" , "5th" , "6th" , "7th" , "8th" , "9th" , "10th" ,
+				"11th", "12th", "13th", "14th", "15th", "16th", "17th", "18th", "19th", "20t",
+				"21st", "22nd", "23rd", "24th", "25th", "26th", "27th", "28th", "29th", "30th", "31st"];
+	var months= ["January" , "February" , "March" , "April" ,"May" , "June" , "July" , "September" , "October" , "November" , "December"];
+	var today=new Date();
+	var str= months[today.getMonth()-1]+"&nbsp;" + days[today.getDate()-1] +"&nbsp;"
+			+ (today.getYear()<1900 ? 1900+today.getYear():today.getYear());
+	//today.getHours()+":"+today.getMinutes()
+	document.getElementById('todaydate').innerHTML=str;
+	minutes = today.getMinutes() + "";
+	if(minutes.length == 1){
+		minutes = "0" + minutes;
+	}
+	str = today.getHours()+(flag?":":"&nbsp")+ minutes + "&nbsp;" + (today.getHours() < 13 ? "AM":"PM");
+	document.getElementById('todaytime').innerHTML=str;
+}
+getTodayTime();
+//每隔一秒刷新一次
+setInterval("getTodayTime()",1000);
+</script>
+
+	<!-- Scene 2 -->
+<script>
+var level_reward = {
+	0:1,  //特等奖1人
+	1:1,  //一等奖1人
+	2:2,  //二等奖2人
+	3:3   //三等奖3人
+};
+var cur_level = 3; //当前等级
+
+function scene2_in(){
+	$('#reward_list').html('<h1>获奖名单</h1>');
+	switch(cur_level){
+		case 0:
+			html = '特 等 奖';
+			break;
+		case 1:
+			html = '一 等 奖';
+			break;
+		case 2:
+			html = '二 等 奖';
+			break;
+		case 3:
+			html = '三 等 奖';
+			break;
+	}
+	$('#level_reward').html(html);
+}
+function scene2_out(){
+
+}
+var stop_reward = false;
+var reward_list_num = [];
+var time_out;
+var reward = "";
+function start_reward(){
+	if(cur_level == -1 ) //|| !canReward
+		return;
+	switch(cur_level){
+		case 0:
+			html = '特 等 奖';
+			break;
+		case 1:
+			html = '一 等 奖';
+			break;
+		case 2:
+			html = '二 等 奖';
+			break;
+		case 3:
+			html = '三 等 奖';
+			break;
+	}
+	$('#level_reward').html(html);
+	if(stop_reward){
+		clearTimeout(time_out);
+
+		while(reward_list_num.length != 0){
+			member_list[reward_list_num.pop()] = "-1";
+		}
+		temp_member_list = [];
+		while(member_list.length != 0){
+			temp_str = member_list.pop();
+			if("-1" != temp_str){
+				temp_member_list.push(temp_str);
+			}
+		}
+		member_list = temp_member_list;
+		cur_level--;
+		stop_reward = false;
+		$('#fun_reward').html('开始抽奖');
+		
+	}else{
+		stop_reward = true;
+		$('#fun_reward').html('停止');
+		show_reward_list();
+	}
+}
+
+function show_reward_list(){
+
+	reward = "";
+	reward_list_num = []; //此处并非定义而是赋空值
+	rand_array = []; //select not replace number
+	for(i=0 ; i<member_list.length ; i++){
+		rand_array.push(i);
+	}
+	for(i=0 ; i<level_reward[cur_level] ; i++){
+		//每次循环时，都是将已经循环的数放入最后，所以每次循环的范围都需要缩小
+		randNum = RandomNum(0,rand_array.length-i-1);
+		if(reward == ""){
+			reward = "<span>" + member_list[rand_array[randNum]] + "</span>";
+		}else{
+			reward = reward + "<br/><span>" + member_list[rand_array[randNum]] + "</span>";
+		}
+		reward_list_num.push(rand_array[randNum]);
+		
+		rand_array[randNum] = rand_array[rand_array.length-i-1];
+	}
+	$('#reward_list').html(reward);
+	time_out = setTimeout(show_reward_list , 100);
+}
+
+</script>
+	<table id="scene2" style="width:720px;height:540px;" cellpadding="0" cellspacing="0" border="0">
+		<tbody>
+			<tr>
+				<td rowspan="3" colspan="3"><!-- 1-2,1-2 -->
+					<div class="sular color1" style="align:center;">
+						<div><img src="imgs/rewardhead.png" width="540" height="100"></div>
+						<table>
+						<tr><td style="align:center;height:340px; width:500px;padding-left:140px;">
+						<span id="reward_list"></span>
+						</td></tr>
+						</table>
+						<div><img src="imgs/rewardbottom.png" width="540" height="100"></div>
+					</div>
+				</td>
+				<td ><!-- 1,4 -->
+					<div  onclick="start_reward()" class="sq color1">
+						<br/>
+						<div><img src="imgs/reward.png"></div>
+						<span id="fun_reward">开始抽奖</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td ><!-- 2,4 -->
+					<div class="sq color2">
+						<br/>
+						<div><img src="imgs/reward2.png"></div>
+						<span id="level_reward" style="font-weight : bold;"></span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td><!-- 3,4 -->
+				</td>
+				
+			</tr>
+		</tbody>
+	</table>
+
+	
+	<!-- scene3 -->
+	
+	<script>
+	var isStart = false; // 开始判断
+	
+	var record_time = 120;  //120s
+	var now_time = 0;
+	var right_word = 0;  //正确题目数
+	
+	var timeoutPoint;
+	
+	var temp_game_words = [];  //存放词语的下标地址
+	var game_words_used = 0;  //已经使用过的词语数量
+	var game_words_length = game_words.length; //词语原始数量
+	
+	function init_temp_game_words(){
+		for(i=0 ; i<game_words_length ; i++){
+			temp_game_words.push(i);
+		}
+	}
+	init_temp_game_words();  //只运行一次
+	
+	function scene3_in(){
+		$("#displayword").html("心有灵犀");
+		$("#backtime").html("倒计时");
+	}
+	function scene3_out(){
+		
+	}
+	//开始游戏
+	function start_game1(){
+		isStart = true;
+		clearTimeout(timeoutPoint);
+		right_word = 0;
+		now_time = record_time;
+		game1_showword();
+		cal_backtime();
+	}
+	
+	//计算倒计时
+	function cal_backtime(){
+		$("#backtime").html(now_time);
+		if(now_time != 0){
+			now_time--;
+			timeoutPoint = setTimeout(cal_backtime , 1000);
+		}else{
+			stop_game1();
+		}
+	}
+	
+	//结束游戏
+	function stop_game1(){
+		isStart = false;
+		$("#displayword").html("答对 : <span style=\"font-size:100px;\">" + right_word + "</span>");
+	}
+	
+	function game1_yes(){
+		if(!isStart){
+			return;
+		}
+		right_word++;
+		game1_showword();
+	}
+	function game1_pass(){
+		if(!isStart){
+			return;
+		}
+		game1_showword();
+	}
+	
+	function game1_showword(){
+		index_word = 0;
+		//所有词语都使用完毕后则循环
+		if(game_words_length == game_words_used){
+			game_words_used = 0;
+		}
+		randNum = RandomNum(0 , game_words_length - game_words_used - 1);
+		index_word = temp_game_words[randNum];
+		temp_game_words[randNum] = temp_game_words[game_words_length - game_words_used - 1];
+		temp_game_words[game_words_length - game_words_used - 1] = index_word;
+		game_words_used++;
+		$("#displayword").html(game_words[index_word]);
+	}
+	
+	</script>
+	<table id="scene3" style="width:720px;height:540px;" cellpadding="0" cellspacing="0" border="0">
+		<tbody>
+			<tr>
+				<td rowspan="2" colspan="3"><!-- 1-2,1-2 -->
+					<div class="midlar color1" style="align:center;">
+						<table>
+						<tr><td style="align:center;height:260px; width:500px;padding-left:180px;">
+						<span><h1 id="displayword">心有灵犀</h1></span>
+						</td></tr>
+						</table>
+						<div><img src="imgs/rewardbottom.png" width="540" height="100"></div>
+					</div>
+				</td>
+				<td ><!-- 1,4 -->
+					<div onclick="game1_yes()" class="sq color1">
+						<br /><br /><br />
+						<span style="font-size:60px;">Yes</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td ><!-- 2,4 -->
+					<div onclick="game1_pass()" class="sq color2">
+						<br /><br /><br />
+						<span style="font-size:60px;">Pass</span>
+					</div>
+				</td>
+			</tr>
+			<tr>
+				<td  colspan="3"><!-- 3,1-3 -->
+					<div class="sulon color2">
+						<br /><br />
+						<span id="backtime" style="font-size:70px">倒计时</span>
+					</div>
+				</td>
+				<td><!-- 3,4 -->
+					<div onclick="start_game1()" class="sq color1">
+						<br/>
+						<div><img src="imgs/game1_play.png"></div>
+						<span>开始</span>
+					</div>
+				</td>
+				
+			</tr>
+		</tbody>
+	</table>
+	
+	
+</td>
+</tr>
+</table>
+
+
+
+</body>
+
+</html>
